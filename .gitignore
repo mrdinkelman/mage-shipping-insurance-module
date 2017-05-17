@@ -1541,7 +1541,6 @@
 /var/package/Mage_All_Latest-1.9.2.4.xml
 /var/package/Mage_Locale_en_US-1.9.2.4.xml
 /var/.htaccess
-/README.md
 /includes/config.php
 /includes/.htaccess
 /lib/Unserialize/Parser.php
