@@ -8,7 +8,15 @@ Module allows to add shipping insurance for your orders. There are key ideas for
   - Module supports build-in Magento shipping methods and custom shipping methods implemented by other deveopers or from Magento Community
   - Info about Shipping insurance will be added to invoices, credit memo and other needed places.
 
-### Some screens:
+### Some screens - public:
+![alt tag](/dot/Selection_960.png?raw=true "Preview")
+![alt tag](/dot/Selection_965.png?raw=true "Preview")
+
+### Some screens - admin:
+![alt tag](/dot/Selection_961.png?raw=true "Preview")
+![alt tag](/dot/Selection_962.png?raw=true "Preview")
+![alt tag](/dot/Selection_963.png?raw=true "Preview")
+![alt tag](/dot/Selection_964.png?raw=true "Preview")
 
 ### Known issues:
   - Multi-shipping for order is not properly supported. [Working on it]
