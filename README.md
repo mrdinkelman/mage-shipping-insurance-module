@@ -9,7 +9,7 @@ Module allows to add shipping insurance for your orders. There are key ideas for
   - Info about Shipping insurance will be added to invoices, credit memo and other needed places.
 
 ### Some screens - public:
-![alt tag](/dot/Selection_975.png?raw=true "Preview")
+![alt tag](/dot/Selection_974.png?raw=true "Preview")
 ![alt tag](/dot/Selection_965.png?raw=true "Preview")
 
 ### Some screens - admin:
