@@ -9,21 +9,28 @@ Module allows to add shipping insurance for your orders. There are key ideas for
   - Info about Shipping insurance will be added to invoices, credit memo and other needed places.
 
 ### Some screens - public:
-![alt tag](/dot/Selection_960.png?raw=true "Preview")
+![alt tag](/dot/Selection_975.png?raw=true "Preview")
 ![alt tag](/dot/Selection_965.png?raw=true "Preview")
 
 ### Some screens - admin:
-![alt tag](/dot/Selection_961.png?raw=true "Preview")
+![alt tag](/dot/Selection_976.png?raw=true "Preview")
 ![alt tag](/dot/Selection_962.png?raw=true "Preview")
 ![alt tag](/dot/Selection_963.png?raw=true "Preview")
 ![alt tag](/dot/Selection_964.png?raw=true "Preview")
 
 ### Known issues:
-  - Multi-shipping for order is not properly supported. [Working on it]
+  - There are no ability to render block in OnePage Checkout Shipping Method section without changing parent templates and add `$this->childHtml...` to it. Various solutions from Stackoverflow is not worked.
+
+### Possible improvements:
+  - Add logging to handle cases when something wrong [In to do list, High priority]
+  - Remove Ctrl-C + Ctrl-V pattern from different classes. [In to do list] 
+  - Minor fixes related to wrong template names received on code review [In to do list]
+  - Each shipping method has different rates based on different rules: example, ship in 1 week, ship tomorrow, ship order with 200$+ amount and etc. Can be added in insurance settings. [Analysis]
+  - Add config settings for insurance labels (frontend, admin sections) [No required in current iteration]
 
 ### Installation: Production
 
-- Copy app/ folder inside your magento public root
+- Copy app/ folder inside your magento public root. Be careful, when you making copy of templates.
 - Login into Admin panel and Enable 'Shipping Insurance module'.
 
 Module will be available in Admin > Confirugation > Sales > Shippping Insurance Settings
@@ -64,7 +71,7 @@ $ ./../bin/n98-magerun.phar admin:user:create
 ```sh
 $ ./../bin/n98-magerun.phar customer:create
 ```
-- Enjoy Shipping insurance in Admin > Confirugation > Sales > Shippping Insurance Settings
+- Enjoy Shipping insurance in Admin > Configuration > Sales > Shipping Insurance Settings
 
 ### Contributing
 - Fork it!
