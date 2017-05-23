@@ -4,8 +4,8 @@ This is my first Magento module 1.x.
 Module allows to add shipping insurance for your orders. There are key ideas for it:
   - User can enable/disable feature in general in Admin panel
   - User can specify rates for insurance based on percentage of order or specify fixes amount
-  - User can enable/disabple feature for any shipping method
-  - Module supports build-in Magento shipping methods and custom shipping methods implemented by other deveopers or from Magento Community
+  - User can enable/disable feature for any shipping method
+  - Module supports build-in Magento shipping methods and custom shipping methods implemented by other developers or from Magento Community
   - Info about Shipping insurance will be added to invoices, credit memo and other needed places.
 
 ### Some screens - public:
@@ -18,14 +18,7 @@ Module allows to add shipping insurance for your orders. There are key ideas for
 ![alt tag](/dot/Selection_963.png?raw=true "Preview")
 ![alt tag](/dot/Selection_964.png?raw=true "Preview")
 
-### Known issues:
-  - There are no ability to render block in OnePage Checkout Shipping Method section without changing parent templates and add `$this->childHtml...` to it. Various solutions from Stackoverflow is not worked.
-
 ### Possible improvements:
-  - Add logging to handle cases when something wrong [In to do list, High priority]
-  - Remove Ctrl-C + Ctrl-V pattern from different classes. [In to do list] 
-  - Minor fixes related to wrong template names received on code review [In to do list]
-  - Each shipping method has different rates based on different rules: example, ship in 1 week, ship tomorrow, ship order with 200$+ amount and etc. Can be added in insurance settings. [Analysis]
   - Add config settings for insurance labels (frontend, admin sections) [No required in current iteration]
 
 ### Installation: Production
