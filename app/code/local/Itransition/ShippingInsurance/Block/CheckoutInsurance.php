@@ -2,69 +2,57 @@
 
 class Itransition_ShippingInsurance_Block_CheckoutInsurance extends Mage_Checkout_Block_Onepage_Abstract
 {
-    public function isModuleEnabled()
+    public function isFeatureEnabled()
     {
-        return Mage::getStoreConfig('shippinginsurance/settings/enabled');
-    }
+        /** @var $helper Itransition_ShippingInsurance_Helper_Data $helper */
+        $helper = Mage::helper('itransition_shippinginsurance');
 
-    public function hasInsurances()
-    {
-        return 0 < count($this->listInsuranceCosts());
+        return $helper->isFeatureEnabled();
     }
 
     public function listInsuranceCosts()
     {
         /** @var Mage_Sales_Model_Quote $quote */
-        $quote = $this->getQuote();
+        $quote  = $this->getQuote();
+
+        /** @var $helper Itransition_ShippingInsurance_Helper_Data $helper */
+        $helper = Mage::helper('itransition_shippinginsurance');
 
         /** @var Mage_Sales_Model_Quote_Address $shippingAddress */
         $shippingAddress = $quote->getShippingAddress();
-        $rates           = $shippingAddress->getShippingRatesCollection();
+        $rates           = $shippingAddress->collectShippingRates()->getGroupedAllShippingRates();
         $costs           = array();
 
-        /** @var Mage_Sales_Model_Quote_Address_Rate $rate */
-        foreach ($rates as $rate) {
-            $carrierCode  = $rate->getCarrier();
-            $carrierTitle = $rate->getCarrierTitle();
+        if ($rates) {
+            foreach ($rates as $code => $rate) {
+                if (!$helper->isCarrierCodeAllowed($code)) {
+                    continue;
+                }
 
-            if (isset($costs[$carrierTitle])) {
+                $carrier = array_shift($rate);
+                $carrierCode  = $carrier->getCarrier();
+                $carrierTitle = $this->__($carrier->getCarrierTitle());
+
+                $costInsurance        = $helper->calculateInsuranceCost($carrierCode, $this->getQuote()->getSubtotal());
+                $costs[$carrierTitle] = Mage::helper('core')->currency($costInsurance, true, false);
+            }
+
+            return $costs;
+        }
+
+        // handle case for guest users without any exists shipping addresses
+        $carriers = Mage::getSingleton('shipping/config')->getActiveCarriers();
+
+        foreach ($carriers as $carrierCode => $carrierModel) {
+            if (!$helper->isCarrierCodeAllowed($carrierCode)) {
                 continue;
             }
 
-            if (!$this->_isInsuranceEnabled($carrierCode)) {
-                continue;
-            }
-
-            $costInsurance        = $this->_calculateInsuranceCost($carrierCode);
+            $carrierTitle         = $this->__(Mage::getStoreConfig('carriers/'.$carrierCode.'/title'));
+            $costInsurance        = $helper->calculateInsuranceCost($carrierCode, $this->getQuote()->getSubtotal());
             $costs[$carrierTitle] = Mage::helper('core')->currency($costInsurance, true, false);
         }
 
         return $costs;
-    }
-
-    protected function _isInsuranceEnabled($code)
-    {
-        return Mage::getStoreConfig('shippinginsurance/rates/field_' . $code. '_enabled');
-    }
-
-    protected function _calculateInsuranceCost($code)
-    {
-        $costInsurance = 0;
-        $subTotal      = $this->getQuote()->getSubtotal();
-
-        $type = Mage::getStoreConfig('shippinginsurance/rates/field_' . $code . '_type');
-        $fee  = Mage::getStoreConfig('shippinginsurance/rates/field_' . $code . '_fee');
-
-        switch ($type) {
-            case Itransition_ShippingInsurance_Model_Setting_Source_Type::TYPE_FIXED_ID: {
-                $costInsurance = round($fee, 2, PHP_ROUND_HALF_UP);
-                break;
-            }
-            case Itransition_ShippingInsurance_Model_Setting_Source_Type::TYPE_ORDER_PERCENTAGE_ID: {
-                $costInsurance = round($subTotal * ($fee / 100), 2, PHP_ROUND_HALF_UP);
-            }
-        }
-
-        return $costInsurance;
     }
 }
